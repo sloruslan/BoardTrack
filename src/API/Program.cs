@@ -3,7 +3,8 @@ using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureLogger()
+builder.ConfigureOptions()
+       .ConfigureLogger()
        .AddApplication()
        .AddPersistence()
        .AddInfrastructure()
