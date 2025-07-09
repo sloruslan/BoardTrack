@@ -1,4 +1,5 @@
-﻿using Persistence.Configurations;
+﻿using Application.Configuration;
+using Persistence.Configurations;
 
 namespace API.Configuration
 {
@@ -8,6 +9,7 @@ namespace API.Configuration
         {
             // register and configure IOptions there
             builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(DatabaseOptions.Section));
+            builder.Services.Configure<PartitionOptions>(builder.Configuration.GetSection(nameof(PartitionOptions)));
 
 
             return builder;

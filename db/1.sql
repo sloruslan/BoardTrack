@@ -41,10 +41,9 @@ create table "BOARD"
     type_id         bigint not null references public."BOARD_TYPE" (id),
     current_step_id smallint not null references public."PRODUCTION_STEP" (id),
     constraint "PK_BOARD"
-        primary key (id, created_at)
+        primary key (id)
 
-) PARTITION BY RANGE (created_at);
-CREATE TABLE "BOARD_DEFAULT" PARTITION OF "BOARD" default;
+)
 
 
 create table "PRODUCTION_STEP_RULE"

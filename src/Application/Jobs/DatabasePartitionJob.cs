@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Application.Interfaces;
+using Microsoft.Extensions.Logging;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,19 @@ namespace Application.Jobs
     public class DatabasePartitionJob : IJob
     {
         private readonly ILogger<DatabasePartitionJob> _logger;
-        public DatabasePartitionJob(ILogger<DatabasePartitionJob> logger)
+        private readonly IDatabaseMaintenanceService _databaseMaintenanceService;
+        public DatabasePartitionJob(ILogger<DatabasePartitionJob> logger, 
+            IDatabaseMaintenanceService databaseMaintenanceService)
         {
             _logger = logger;
+            _databaseMaintenanceService = databaseMaintenanceService;
         }
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             _logger.LogInformation("Выполняется джоба по созданию партиций в БД");
 
-            return Task.CompletedTask;
+            await _databaseMaintenanceService.CreatePartitionsIfNeedAsync();
+            await _databaseMaintenanceService.DeletePartitionsIfNeedAsync();
         }
     }
 }

@@ -30,23 +30,23 @@ namespace API.Configuration
             var cron = configuration.GetRequiredSection(nameof(CronJobsScheduleOptions))
              .GetValue<string>("DatabasePartitionJob")!;
 
-            //var databaseOptions = new DatabaseOptions();
-            //configuration.GetSection(DatabaseOptions.Section).Bind(databaseOptions);
+            var databaseOptions = new DatabaseOptions();
+            configuration.GetSection(DatabaseOptions.Section).Bind(databaseOptions);
 
-            //var connStringBuilder = new NpgsqlConnectionStringBuilder
-            //{
-            //    Host = databaseOptions.Host,
-            //    Port = databaseOptions.Port,
-            //    Database = databaseOptions.Name,
-            //    SearchPath = "validator",
-            //    Username = databaseOptions.User,
-            //    Password = databaseOptions.Password,
-            //    CommandTimeout = databaseOptions.CommandTimeout,
-            //    ConnectionIdleLifetime = databaseOptions.ConnectionIdLifetime,
-            //    Pooling = databaseOptions.Pooling,
-            //    KeepAlive = databaseOptions.KeepAlive,
-            //    TcpKeepAlive = databaseOptions.TcpKeepAlive
-            //};
+            var connStringBuilder = new NpgsqlConnectionStringBuilder
+            {
+                Host = databaseOptions.Host,
+                Port = databaseOptions.Port,
+                Database = databaseOptions.Name,
+                SearchPath = "public",
+                Username = databaseOptions.User,
+                Password = databaseOptions.Password,
+                CommandTimeout = databaseOptions.CommandTimeout,
+                ConnectionIdleLifetime = databaseOptions.ConnectionIdLifetime,
+                Pooling = databaseOptions.Pooling,
+                KeepAlive = databaseOptions.KeepAlive,
+                TcpKeepAlive = databaseOptions.TcpKeepAlive
+            };
 
 
             services.Configure<QuartzOptions>(options =>
@@ -56,15 +56,20 @@ namespace API.Configuration
 
             services.AddQuartz(q =>
             {
-                //q.UsePersistentStore(x =>
-                //{
-                //    x.UseProperties = true;
-                //    x.UsePostgres(connStringBuilder.ToString());
-                //    x.UseNewtonsoftJsonSerializer();
-                //    x.UseClustering();
-                //});
+                q.UsePersistentStore(x =>
+                {
+                    x.UseProperties = true;
+                    x.UsePostgres(connStringBuilder.ToString());
+                    x.UseNewtonsoftJsonSerializer();
+                    x.UseClustering();
+                });
 
                 q.AddJob<DatabasePartitionJob>(c => c.WithIdentity("database-partition-job"));
+                
+                q.AddTrigger(c => c.ForJob("database-partition-job")
+                    .WithIdentity("database-partition-job-immediate")
+                    .StartNow());
+
                 q.AddTrigger(c => c.ForJob("database-partition-job")
                     .WithIdentity("database-partition-job-trigger")
                     .WithCronSchedule(cron));

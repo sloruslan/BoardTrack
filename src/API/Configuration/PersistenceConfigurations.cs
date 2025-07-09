@@ -1,6 +1,8 @@
-﻿using Application.Interfaces.Repository;
+﻿using Application.Interfaces;
+using Application.Interfaces.Repository;
 using Persistence.Database.DbContextFactory;
 using Persistence.Database.Repository;
+using Persistence.Service;
 
 namespace API.Configuration
 {
@@ -10,6 +12,7 @@ namespace API.Configuration
         {
             // all configurations for persistence library should be there
 
+            builder.Services.AddSingleton<IDatabaseMaintenanceService, DatabaseMaintenanceService>();
 
             builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
             builder.Services.AddTransient<IBoardTypeRepository, BoardTypeRepository>();
