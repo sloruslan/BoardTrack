@@ -1,6 +1,7 @@
 ﻿using Application.DTO;
 using Application.DTO.Board;
 using Application.DTO.BoardType;
+using Application.Extensions;
 using Application.Interfaces.API;
 using Application.Interfaces.Repository;
 using AutoMapper;
@@ -69,7 +70,8 @@ namespace Application.Services.API
             var validSteps = _productionStepRuleRepository.GetValidSteps(board.CurrentStepId);
             if (!validSteps.Contains(request.NextStepId))
             {
-                throw new StepNotAllowedException($"Переход с шага {board.CurrentStepId} на шаг {request.NextStepId} не разрешен");
+                throw new StepNotAllowedException
+                    ($"Переход с шага '{((ProductionStepEnum)board.CurrentStepId).ToRussianName()}' на шаг '{((ProductionStepEnum)request.NextStepId).ToRussianName()}' не разрешен");
             }
 
             var res = await _repository.SetNextStepAsync(request.BoardId, request.NextStepId);

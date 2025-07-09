@@ -32,6 +32,8 @@ namespace Persistence.Database.Repository
             using var db = _dbContextFactory.Create();
 
             var query = db.Board
+                .LoadWith(x => x.Step)
+                .LoadWith(x => x.Type)
                                .WhereIfParameterNotNull(filteringModel.Id, x => x.Id == filteringModel.Id)
                                .WhereIfParameterNotNull(filteringModel.CreatedAt, x => x.CreatedAt == filteringModel.CreatedAt)
                                .WhereIfParameterNotNull(filteringModel.UpdatedAt, x => x.UpdatedAt == filteringModel.UpdatedAt)
@@ -57,7 +59,10 @@ namespace Persistence.Database.Repository
         public async Task<Board> GetOneAsync(long id)
         {
             using var db = _dbContextFactory.Create();
-            var result = await db.Board.FirstOrDefaultAsync(x =>
+            var result = await db.Board
+                .LoadWith(x => x.Step)
+                .LoadWith(x => x.Type)
+                .FirstOrDefaultAsync(x =>
             x.Id == id);
 
             if (result == null)

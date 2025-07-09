@@ -14,7 +14,9 @@ public class MappingProfile : Profile
         CreateMap<UpdateBoardTypeRequest, BoardType>();
 
         CreateMap<CreateBoardRequest, Board>();
-        CreateMap<Board, BoardResponse>();
+        CreateMap<Board, BoardResponse>()
+           .ForMember(x => x.CurrentStepName, opt => opt.MapFrom(y => y.Step.Name))
+           .ForMember(x => x.TypeName, opt => opt.MapFrom(y => y.Type.Name));
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.Repository;
 using AutoMapper;
+using LinqToDB;
 using Persistence.Database.DbContextFactory;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Persistence.Database.Repository
         {
             using var db = _dbContextFactory.Create();
 
-            var steps = db.ProductionStepRule
+            var steps = db.ProductionStepRule  
                 .Where(x => x.IsActive && x.CurrentStepId == currentStepId)
                 .Select(x => x.ValidNextStepId)
                 .ToList();

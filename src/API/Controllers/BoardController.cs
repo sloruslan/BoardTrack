@@ -66,6 +66,11 @@ namespace API.Controllers
             return Ok(res);
         }
 
+        /// <summary>
+        /// Ручка с TotalCount для фронта
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpGet("with-count")]
         [ProducesResponseType(typeof(WithCountResponse<BoardResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
