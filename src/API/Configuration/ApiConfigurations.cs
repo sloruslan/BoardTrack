@@ -1,5 +1,4 @@
-﻿using API.Auth;
-using API.Service;
+﻿using API.Service;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +9,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace API.Configurations
+namespace API.Configuration
 {
     public static class ApiConfigurations
     {
@@ -78,7 +77,7 @@ namespace API.Configurations
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey, 
+                    Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
                     In = ParameterLocation.Header,
                     Description = "Введите JWT токен в формате: Bearer {токен}"

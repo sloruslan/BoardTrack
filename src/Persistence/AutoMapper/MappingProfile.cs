@@ -1,7 +1,10 @@
 using Application.DTO.Board;
+using Application.DTO.BoardHistory;
 using Application.DTO.BoardType;
+using Application.Extensions;
 using AutoMapper;
 using Domain.DTO.Database.Models;
+using Domain.Enums;
 
 namespace Persistence.AutoMapper.Profiles;
 
@@ -15,8 +18,9 @@ public class MappingProfile : Profile
 
         CreateMap<CreateBoardRequest, Board>();
         CreateMap<Board, BoardResponse>()
-           .ForMember(x => x.CurrentStepName, opt => opt.MapFrom(y => y.Step.Name))
-           .ForMember(x => x.TypeName, opt => opt.MapFrom(y => y.Type.Name));
+           .ForMember(x => x.CurrentStepName, opt => opt.MapFrom(y => ((ProductionStepEnum)y.CurrentStepId).ToRussianName()));
+
+        CreateMap<BoardHistory, BoardHistoryResponse>();
 
     }
 

@@ -1,11 +1,9 @@
-﻿
-
-using Application.Interfaces.API;
+﻿using Application.Interfaces.API;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Validator.Controllers
+namespace API.Controllers
 {
     [AllowAnonymous]
     [Route("/Info")]

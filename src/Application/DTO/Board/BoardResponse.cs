@@ -30,9 +30,6 @@ namespace Application.DTO.Board
         [JsonPropertyName("type_id")]
         public long TypeId { get; set; }
 
-        [JsonPropertyName("type_name")]
-        public string? TypeName { get; set; }
-
         [JsonPropertyName("current_step_id")]
         public short CurrentStepId { get; set; }
 

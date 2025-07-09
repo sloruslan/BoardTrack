@@ -28,6 +28,11 @@ namespace API.Middleware
                     await HandleExceptionAsync(context, StatusCodes.Status401Unauthorized, "Не авторизован (401)");
                 }
             }
+            catch (BoardMoveException ex)
+            {
+                _logger.LogError(ex, "Произошла ошибка");
+                await HandleExceptionAsync(context, ex.StatusCode, ex.Message);
+            }
             catch (EntityNotFindException ex)
             {
                 _logger.LogError(ex, "Произошла ошибка");

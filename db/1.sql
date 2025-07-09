@@ -74,3 +74,23 @@ VALUES
     (9, now(), now(), true, 4, 4, ''),
     (10, now(), now(), true, 5, 5, '');
 
+
+
+create table "BOARD_HISTORY"
+(
+    id           bigint generated always as identity,
+    from_step_id smallint,
+    to_step_id   smallint not null,
+    moved_at     timestamp default timezone('utc'::text, now()) not null,
+    moved_by_user_id BIGINT NULL,
+    comment TEXT NULL,
+    board_id bigint not null,
+
+    constraint "PK_BOARD_HISTORY"
+        primary key (id, moved_at)
+
+) PARTITION BY RANGE (moved_at);
+CREATE TABLE "BOARD_HISTORY_DEFAULT" PARTITION OF "BOARD_HISTORY" default;
+
+create index "BOARD_HISTORY_board_id_index"
+    on public."BOARD_HISTORY" (board_id);

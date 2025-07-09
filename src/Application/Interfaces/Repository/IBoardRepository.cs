@@ -1,6 +1,7 @@
 ﻿using Application.DTO.Board;
 using Application.DTO.BoardType;
 using Domain.DTO.Database.Models;
+using LinqToDB.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace Application.Interfaces.Repository
 {
     public interface IBoardRepository
     {
-        Task<Board> CreateAsync(Board request);
+        DataConnection GetDataConnection();
+        Task<Board> CreateAsync(DataConnection db, Board request);
         Task<Board> GetOneAsync(long id);
         Task<(int TotalCount, List<Board> Payload)> GetAsync(FilteringBoardRequest filteringModel);
-        Task<Board> SetNextStepAsync(long id, short nextStepId);
+        Task<Board> SetNextStepAsync(DataConnection db, long id, short nextStepId);
 
     }
 }

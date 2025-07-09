@@ -1,7 +1,8 @@
-﻿using Persistence.AutoMapper.Profiles;
+﻿using API.Configuration;
+using Persistence.AutoMapper.Profiles;
 using System.Reflection;
 
-namespace API.Configurations
+namespace API.Configuration
 {
     public static class AutoMapperConfigurations
     {

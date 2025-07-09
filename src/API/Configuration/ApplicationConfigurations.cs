@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.API;
 using Application.Services.API;
 
-namespace API.Configurations
+namespace API.Configuration
 {
     public static class ApplicationConfigurations
     {
@@ -12,6 +12,7 @@ namespace API.Configurations
             builder.Services.AddScoped<IInfoService, InfoService>();
             builder.Services.AddScoped<IBoardTypeService, BoardTypeService>();
             builder.Services.AddScoped<IBoardService, BoardService>();
+            builder.Services.AddScoped<IBoardHistoryService, BoardHistoryService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient();

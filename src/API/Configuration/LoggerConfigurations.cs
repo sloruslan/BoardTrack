@@ -1,6 +1,6 @@
 ﻿using Serilog;
 
-namespace API.Configurations
+namespace API.Configuration
 {
     public static class LoggerConfigurations
     {

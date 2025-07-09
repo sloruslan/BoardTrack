@@ -1,4 +1,4 @@
-﻿namespace API.Configurations
+﻿namespace API.Configuration
 {
     public static class InfrastructureConfigurations
     {

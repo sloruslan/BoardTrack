@@ -6,6 +6,7 @@ using Domain.DTO.Database.Models;
 using Domain.Exceptions;
 using Domain.Extensions;
 using LinqToDB;
+using LinqToDB.Data;
 using Persistence.Database.DbContextFactory;
 
 namespace Persistence.Database.Repository
@@ -18,10 +19,8 @@ namespace Persistence.Database.Repository
             _mapper = mapper;
         }
 
-        public async Task<Board> CreateAsync(Board request)
+        public async Task<Board> CreateAsync(DataConnection db, Board request)
         {
-            using var db = _dbContextFactory.Create();
-
             request.Id = await db.InsertWithInt64IdentityAsync(request);
 
             return request;
@@ -32,8 +31,6 @@ namespace Persistence.Database.Repository
             using var db = _dbContextFactory.Create();
 
             var query = db.Board
-                .LoadWith(x => x.Step)
-                .LoadWith(x => x.Type)
                                .WhereIfParameterNotNull(filteringModel.Id, x => x.Id == filteringModel.Id)
                                .WhereIfParameterNotNull(filteringModel.CreatedAt, x => x.CreatedAt == filteringModel.CreatedAt)
                                .WhereIfParameterNotNull(filteringModel.UpdatedAt, x => x.UpdatedAt == filteringModel.UpdatedAt)
@@ -56,12 +53,15 @@ namespace Persistence.Database.Repository
             return (totalCount, entities);
         }
 
+        public DataConnection GetDataConnection()
+        {
+            return _dbContextFactory.Create();
+        }
+
         public async Task<Board> GetOneAsync(long id)
         {
             using var db = _dbContextFactory.Create();
             var result = await db.Board
-                .LoadWith(x => x.Step)
-                .LoadWith(x => x.Type)
                 .FirstOrDefaultAsync(x =>
             x.Id == id);
 
@@ -73,10 +73,10 @@ namespace Persistence.Database.Repository
             return result;
         }
 
-        public async Task<Board> SetNextStepAsync(long id, short nextStepId)
+        public async Task<Board> SetNextStepAsync(DataConnection db, long id, short nextStepId)
         {
-            using var db = _dbContextFactory.Create();
-            var entity = await db.Board.FirstOrDefaultAsync(x =>
+            var entity = await ((DatabaseContext)db).Board
+                .FirstOrDefaultAsync(x =>
             x.Id == id);
 
             if (entity == null)
