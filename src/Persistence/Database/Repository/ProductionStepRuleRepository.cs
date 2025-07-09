@@ -19,7 +19,7 @@ namespace Persistence.Database.Repository
             using var db = _dbContextFactory.Create();
 
             var steps = db.ProductionStepRule  
-                .Where(x => x.IsActive && x.CurrentStepId == currentStepId)
+                .Where(x => x.CurrentStepId == currentStepId)
                 .Select(x => x.ValidNextStepId)
                 .ToList();
 

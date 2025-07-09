@@ -13,6 +13,4 @@ public class BaseEntity
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    [Column("is_active")]
-    public bool IsActive { get; set; } = true;
 }

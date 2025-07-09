@@ -17,6 +17,8 @@ public class DatabaseContext : DataConnection
     public ITable<ProductionStep> ProductionStep => this.GetTable<ProductionStep>();
     public ITable<ProductionStepRule> ProductionStepRule => this.GetTable<ProductionStepRule>();
     public ITable<BoardHistory> BoardHistory => this.GetTable<BoardHistory>();
+    public ITable<User> User => this.GetTable<User>();
+    public ITable<Role> Role => this.GetTable<Role>();
     
 
 }

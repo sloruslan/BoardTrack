@@ -37,15 +37,14 @@ namespace Persistence.Database.Repository
         {
             using var db = _dbContextFactory.Create();
 
-            var entity = await db.BoardType.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
+            var entity = await db.BoardType.FirstOrDefaultAsync(x => x.Id == id);
             if (entity == null)
             {
                 throw new EntityNotFindException("Объект не найден!");
             }
 
-            entity.IsActive = false;
-            entity.UpdatedAt = DateTime.UtcNow;
-            await db.UpdateAsync(entity);
+           
+            await db.DeleteAsync(entity);
         }
 
         public async Task<(int TotalCount, List<BoardType> Payload)> GetAsync(FilteringBoardTypeRequest filteringModel)
@@ -56,7 +55,6 @@ namespace Persistence.Database.Repository
                                .WhereIfParameterNotNull(filteringModel.Id, x => x.Id == filteringModel.Id)
                                .WhereIfParameterNotNull(filteringModel.CreatedAt, x => x.CreatedAt == filteringModel.CreatedAt)
                                .WhereIfParameterNotNull(filteringModel.UpdatedAt, x => x.UpdatedAt == filteringModel.UpdatedAt)
-                               .WhereIfParameterNotNull(filteringModel.IsActive, x => x.IsActive == filteringModel.IsActive)
                                .WhereIfParameterNotNull(filteringModel.Name, x => x.Name == filteringModel.Name)
                                .WhereIfParameterNotNull(filteringModel.Description, x => x.Description == filteringModel.Description);
 
@@ -92,7 +90,7 @@ namespace Persistence.Database.Repository
         {
             using var context = _dbContextFactory.Create();
 
-            var entity = await context.BoardType.FirstOrDefaultAsync(x => x.Id == id && x.IsActive == true);
+            var entity = await context.BoardType.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {

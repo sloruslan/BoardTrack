@@ -10,7 +10,6 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/board-history")]
-    [AllowAnonymous]
     public class BoardHistoryController : BaseController<IBoardHistoryService>
     {
         private readonly IBoardHistoryService _service;

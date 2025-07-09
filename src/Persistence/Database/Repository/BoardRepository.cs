@@ -34,7 +34,6 @@ namespace Persistence.Database.Repository
                                .WhereIfParameterNotNull(filteringModel.Id, x => x.Id == filteringModel.Id)
                                .WhereIfParameterNotNull(filteringModel.CreatedAt, x => x.CreatedAt == filteringModel.CreatedAt)
                                .WhereIfParameterNotNull(filteringModel.UpdatedAt, x => x.UpdatedAt == filteringModel.UpdatedAt)
-                               .WhereIfParameterNotNull(filteringModel.IsActive, x => x.IsActive == filteringModel.IsActive)
                                .WhereIfParameterNotNull(filteringModel.Name, x => x.Name == filteringModel.Name)
                                .WhereIfParameterNotNull(filteringModel.Serial, x => x.Serial == filteringModel.Serial)
                                .WhereIfParameterNotNull(filteringModel.TypeId, x => x.TypeId == filteringModel.TypeId)

@@ -1,6 +1,7 @@
-﻿using System.Net;
+﻿using Domain.Exceptions;
+using System.Net;
 
-namespace Domain.Exceptions
+namespace Domain.Extensions
 {
     public class AuthorizationException : BaseException
     {

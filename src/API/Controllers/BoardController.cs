@@ -4,13 +4,13 @@ using Application.Interfaces.API;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/board")]
-    [AllowAnonymous]
     public class BoardController : BaseController<IBoardService>
     {
         private readonly IBoardService _service;
@@ -31,6 +31,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BoardResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -38,7 +39,8 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateBoardRequest request)
         {
-            var res = await _service.CreateAsync(request);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = await _service.CreateAsync(request, long.Parse(userId));
             return Ok(res);
         }
 
@@ -118,6 +120,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost("move")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BoardResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -125,7 +128,8 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> MoveBoard(MoveBoardRequest request)
         {
-            var res = await _service.MoveBoardAsync(request);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = await _service.MoveBoardAsync(request, long.Parse(userId));
             return Ok(res);
         }
 

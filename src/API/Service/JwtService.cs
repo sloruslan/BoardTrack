@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Domain.DTO.Database.Models;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,12 +16,13 @@ namespace API.Service
             _config = config;
         }
 
-        public string GenerateToken(string username, string role)
+        public string GenerateToken(string username, string role, long id)
         {
             var claims = new List<Claim>
                 {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, role) // Добавляем роль в токен
+                new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.NameIdentifier, id.ToString())
                 };
 
             

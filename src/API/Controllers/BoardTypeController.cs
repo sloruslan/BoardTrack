@@ -10,7 +10,6 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/board-type")]
-    [AllowAnonymous]
     public class BoardTypeController : BaseController<IBoardTypeService>
     {
         private readonly IBoardTypeService _service;
@@ -31,6 +30,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BoardTypeResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -118,6 +118,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpDelete("{obj_id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -143,6 +144,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPut("{obj_id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BoardTypeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

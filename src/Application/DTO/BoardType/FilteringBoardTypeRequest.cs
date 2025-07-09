@@ -20,9 +20,6 @@ namespace Application.DTO.BoardType
         [BindProperty(Name = "updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        [BindProperty(Name = "is_active")]
-        public bool? IsActive { get; set; }
-
         [BindProperty(Name = "name")]
         public string? Name { get; set; } = default!;
 

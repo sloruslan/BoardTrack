@@ -14,9 +14,6 @@ namespace Application.DTO.Board
         [BindProperty(Name = "id")]
         public long? Id { get; set; }
 
-        [BindProperty(Name = "is_active")]
-        public bool? IsActive { get; set; }
-
         [BindProperty(Name = "created_at")]
         public DateTime? CreatedAt { get; set; }
 

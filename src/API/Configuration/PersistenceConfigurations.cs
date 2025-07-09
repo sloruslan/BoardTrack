@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces;
+using Application.Interfaces.API;
 using Application.Interfaces.Repository;
 using Persistence.Database.DbContextFactory;
 using Persistence.Database.Repository;
+using Persistence.Repository;
 using Persistence.Service;
 
 namespace API.Configuration
@@ -19,6 +21,7 @@ namespace API.Configuration
             builder.Services.AddTransient<IBoardRepository, BoardRepository>();
             builder.Services.AddTransient<IProductionStepRuleRepository, ProductionStepRuleRepository>();
             builder.Services.AddTransient<IBoardHistoryRepository, BoardHistoryRepository>();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
 
             return builder;
         }

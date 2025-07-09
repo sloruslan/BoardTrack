@@ -12,9 +12,6 @@ namespace Application.DTO.BoardType
         [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonPropertyName("is_active")]
-        public bool IsActive { get; set; }
-
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 

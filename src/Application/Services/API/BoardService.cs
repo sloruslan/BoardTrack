@@ -39,7 +39,7 @@ namespace Application.Services.API
             _boardHistoryRepository = boardHistoryRepository;
         }
 
-        public async Task<BoardResponse> CreateAsync(CreateBoardRequest request)
+        public async Task<BoardResponse> CreateAsync(CreateBoardRequest request, long userId)
         {
             var entity = _mapper.Map<Board>(request);
             entity.CurrentStepId = (short)ProductionStepEnum.Registration;
@@ -55,6 +55,7 @@ namespace Application.Services.API
                         {
                             BoardId = res.Id,
                             MovedAt = DateTime.UtcNow,
+                            MovedByUserId = userId,
                             FromStepId = null,
                             ToStepId = (short)ProductionStepEnum.Registration,
                             Comment = "Регистрация новой платы"
@@ -97,7 +98,7 @@ namespace Application.Services.API
             };
         }
 
-        public async Task<BoardResponse> MoveBoardAsync(MoveBoardRequest request)
+        public async Task<BoardResponse> MoveBoardAsync(MoveBoardRequest request, long userId)
         {
             var board = await _boardRepository.GetOneAsync(request.BoardId);
 
@@ -108,12 +109,12 @@ namespace Application.Services.API
                     ($"Переход с шага '{((ProductionStepEnum)board.CurrentStepId).ToRussianName()}' на шаг '{((ProductionStepEnum)request.NextStepId).ToRussianName()}' не разрешен");
             }
 
-            var res = await MoveBoard(board, request);
+            var res = await MoveBoard(board, request, userId);
             return _mapper.Map<BoardResponse>(res);
 
         }
 
-        private async Task<Board> MoveBoard(Board board, MoveBoardRequest request)
+        private async Task<Board> MoveBoard(Board board, MoveBoardRequest request, long userId)
         {
             using (var db = _boardRepository.GetDataConnection())
             {
@@ -126,6 +127,7 @@ namespace Application.Services.API
                         {
                             BoardId = board.Id,
                             MovedAt = DateTime.UtcNow,
+                            MovedByUserId = userId,
                             FromStepId = board.CurrentStepId,
                             ToStepId = request.NextStepId
                         });
