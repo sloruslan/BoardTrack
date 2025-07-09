@@ -14,11 +14,17 @@ namespace Application.DTO.BoardType
         [BindProperty(Name = "id")]
         public long? Id { get; set; }
 
+        [BindProperty(Name = "created_at")]
+        public DateTime? CreatedAt { get; set; }
+
+        [BindProperty(Name = "updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
         [BindProperty(Name = "is_active")]
         public bool? IsActive { get; set; }
 
         [BindProperty(Name = "name")]
-        public string Name { get; set; } = default!;
+        public string? Name { get; set; } = default!;
 
         [BindProperty(Name = "description")]
         public string? Description { get; set; }

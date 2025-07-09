@@ -1,4 +1,6 @@
-﻿using Persistence.Database.DbContextFactory;
+﻿using Application.Interfaces.Repository;
+using Persistence.Database.DbContextFactory;
+using Persistence.Database.Repository;
 
 namespace API.Configurations
 {
@@ -10,7 +12,7 @@ namespace API.Configurations
             
 
             builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
-            //builder.Services.AddTransient<IPowerUnitRepository, PowerUnitRepository>();
+            builder.Services.AddTransient<IBoardTypeRepository, BoardTypeRepository>();
             //builder.Services.AddTransient<IStationRepository, StationRepository>();
             //builder.Services.AddTransient<IUserRepository, UserRepository>();
 

@@ -75,11 +75,10 @@ namespace API.Configurations
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
-                // Настройка JWT аутентификации
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey, // <-- ВАЖНО: ApiKey, а не Http
+                    Type = SecuritySchemeType.ApiKey, 
                     Scheme = "Bearer",
                     In = ParameterLocation.Header,
                     Description = "Введите JWT токен в формате: Bearer {токен}"
