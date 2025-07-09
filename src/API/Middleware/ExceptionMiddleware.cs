@@ -1,4 +1,6 @@
-﻿namespace API.Middleware
+﻿using Domain.Exceptions;
+
+namespace API.Middleware
 {
     public class ExceptionMiddleware
     {
@@ -25,6 +27,16 @@
                 {
                     await HandleExceptionAsync(context, StatusCodes.Status401Unauthorized, "Не авторизован (401)");
                 }
+            }
+            catch (EntityNotFindException ex)
+            {
+                _logger.LogError(ex, "Произошла ошибка");
+                await HandleExceptionAsync(context, ex.StatusCode, ex.Message);
+            }
+            catch (StepNotAllowedException ex)
+            {
+                _logger.LogError(ex, "Произошла ошибка");
+                await HandleExceptionAsync(context, ex.StatusCode, ex.Message);
             }
             catch (Exception ex)
             {

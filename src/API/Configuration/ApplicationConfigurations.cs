@@ -11,6 +11,7 @@ namespace API.Configurations
 
             builder.Services.AddScoped<IInfoService, InfoService>();
             builder.Services.AddScoped<IBoardTypeService, BoardTypeService>();
+            builder.Services.AddScoped<IBoardService, BoardService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient();

@@ -1,4 +1,4 @@
-﻿using Application.DTO.BoardType;
+﻿using Application.DTO.Board;
 using Application.Extensions;
 using Application.Interfaces.Repository;
 using AutoMapper;
@@ -7,60 +7,41 @@ using Domain.Exceptions;
 using Domain.Extensions;
 using LinqToDB;
 using Persistence.Database.DbContextFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Database.Repository
 {
-    public class BoardTypeRepository : BaseRepository, IBoardTypeRepository
+    public class BoardRepository : BaseRepository, IBoardRepository
     {
         private readonly IMapper _mapper;
-        public BoardTypeRepository(IDbContextFactory dbContextFactory, IMapper mapper) : base(dbContextFactory)
+        public BoardRepository(IDbContextFactory dbContextFactory, IMapper mapper) : base(dbContextFactory)
         {
             _mapper = mapper;
         }
 
-        public async Task<BoardType> CreateAsync(CreateBoardTypeRequest request)
+        public async Task<Board> CreateAsync(Board request)
         {
             using var db = _dbContextFactory.Create();
 
-            var newEntity = _mapper.Map<BoardType>(request);
-            newEntity.Id = await db.InsertWithInt64IdentityAsync(newEntity);
+            request.Id = await db.InsertWithInt64IdentityAsync(request);
 
-            return newEntity;
+            return request;
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task<(int TotalCount, List<Board> Payload)> GetAsync(FilteringBoardRequest filteringModel)
         {
             using var db = _dbContextFactory.Create();
 
-            var entity = await db.BoardType.FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
-            if (entity == null)
-            {
-                throw new EntityNotFindException("Объект не найден!");
-            }
-
-            entity.IsActive = false;
-            entity.UpdatedAt = DateTime.UtcNow;
-            await db.UpdateAsync(entity);
-        }
-
-        public async Task<(int TotalCount, List<BoardType> Payload)> GetAsync(FilteringBoardTypeRequest filteringModel)
-        {
-            using var db = _dbContextFactory.Create();
-
-            var query = db.BoardType
+            var query = db.Board
                                .WhereIfParameterNotNull(filteringModel.Id, x => x.Id == filteringModel.Id)
                                .WhereIfParameterNotNull(filteringModel.CreatedAt, x => x.CreatedAt == filteringModel.CreatedAt)
                                .WhereIfParameterNotNull(filteringModel.UpdatedAt, x => x.UpdatedAt == filteringModel.UpdatedAt)
                                .WhereIfParameterNotNull(filteringModel.IsActive, x => x.IsActive == filteringModel.IsActive)
                                .WhereIfParameterNotNull(filteringModel.Name, x => x.Name == filteringModel.Name)
-                               .WhereIfParameterNotNull(filteringModel.Description, x => x.Description == filteringModel.Description);
+                               .WhereIfParameterNotNull(filteringModel.Serial, x => x.Serial == filteringModel.Serial)
+                               .WhereIfParameterNotNull(filteringModel.TypeId, x => x.TypeId == filteringModel.TypeId)
+                               .WhereIfParameterNotNull(filteringModel.CurrentStepId, x => x.CurrentStepId == filteringModel.CurrentStepId);
 
-           
+
 
             if (filteringModel.Sort.CheckParameters())
             {
@@ -68,16 +49,15 @@ namespace Persistence.Database.Repository
             }
             var totalCount = query.Count();
             var entities = await query.ToPaginatedListAsync(filteringModel.Limit, filteringModel.Offset);
-            
 
 
             return (totalCount, entities);
         }
 
-        public async Task<BoardType> GetOneAsync(long id)
+        public async Task<Board> GetOneAsync(long id)
         {
             using var db = _dbContextFactory.Create();
-            var result = await db.BoardType.FirstOrDefaultAsync(x =>
+            var result = await db.Board.FirstOrDefaultAsync(x =>
             x.Id == id);
 
             if (result == null)
@@ -88,21 +68,21 @@ namespace Persistence.Database.Repository
             return result;
         }
 
-        public async Task<BoardType> UpdateAsync(long id, UpdateBoardTypeRequest request)
+        public async Task<Board> SetNextStepAsync(long id, short nextStepId)
         {
-            using var context = _dbContextFactory.Create();
-
-            var entity = await context.BoardType.FirstOrDefaultAsync(x => x.Id == id && x.IsActive == true);
+            using var db = _dbContextFactory.Create();
+            var entity = await db.Board.FirstOrDefaultAsync(x =>
+            x.Id == id);
 
             if (entity == null)
             {
                 throw new EntityNotFindException("Запись не найдена");
             }
 
-            _mapper.Map(request, entity);
             entity.UpdatedAt = DateTime.UtcNow;
+            entity.CurrentStepId = nextStepId;
 
-            await context.UpdateAsync(entity);
+            await db.UpdateAsync(entity);
 
             return entity;
         }

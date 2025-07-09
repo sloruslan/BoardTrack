@@ -13,8 +13,8 @@ namespace API.Configurations
 
             builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
             builder.Services.AddTransient<IBoardTypeRepository, BoardTypeRepository>();
-            //builder.Services.AddTransient<IStationRepository, StationRepository>();
-            //builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IBoardRepository, BoardRepository>();
+            builder.Services.AddTransient<IProductionStepRuleRepository, ProductionStepRuleRepository>();
 
             return builder;
         }

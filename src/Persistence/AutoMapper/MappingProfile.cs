@@ -1,3 +1,4 @@
+using Application.DTO.Board;
 using Application.DTO.BoardType;
 using AutoMapper;
 using Domain.DTO.Database.Models;
@@ -11,6 +12,10 @@ public class MappingProfile : Profile
         CreateMap<CreateBoardTypeRequest, BoardType>();
         CreateMap<BoardType, BoardTypeResponse>();
         CreateMap<UpdateBoardTypeRequest, BoardType>();
+
+        CreateMap<CreateBoardRequest, Board>();
+        CreateMap<Board, BoardResponse>();
+
     }
 
 }
