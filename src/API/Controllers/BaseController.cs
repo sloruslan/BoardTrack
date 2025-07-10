@@ -14,23 +14,5 @@ namespace API.Controllers
         {
             _service = service;
         }
-
-        protected long GetUserId()
-        {
-            long userId = 0;
-            try
-            {
-                var endpoint = HttpContext.GetEndpoint();
-                if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() == null)
-                {
-                    userId = Convert.ToInt64(User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-                }
-            }
-            catch
-            {
-                throw new AuthorizationException();
-            }
-            return userId;
-        }
     }
 }
