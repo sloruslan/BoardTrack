@@ -55,7 +55,7 @@ create table "PRODUCTION_STEP_RULE"
 );
 
 INSERT INTO public."PRODUCTION_STEP_RULE"
-(id, created_at, updated_at, is_active, current_step_id, valid_next_step_id, description)
+(id, created_at, updated_at, current_step_id, valid_next_step_id, description)
 VALUES
     (1, now(), now(), 1, 2, ''),
     (2, now(), now(), 2, 3, ''),
