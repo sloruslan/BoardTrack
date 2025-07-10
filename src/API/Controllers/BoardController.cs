@@ -2,6 +2,7 @@
 using Application.DTO.Board;
 using Application.Interfaces.API;
 using Asp.Versioning;
+using Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -31,7 +32,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConst.Admin)]
         [ProducesResponseType(typeof(BoardResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -120,7 +121,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost("move")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = $"{RoleConst.Admin},{RoleConst.User}")]
         [ProducesResponseType(typeof(BoardResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

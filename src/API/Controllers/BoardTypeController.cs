@@ -2,6 +2,7 @@
 using Application.DTO.BoardType;
 using Application.Interfaces.API;
 using Asp.Versioning;
+using Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConst.Admin)]
         [ProducesResponseType(typeof(BoardTypeResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -118,7 +119,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpDelete("{obj_id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConst.Admin)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -144,7 +145,7 @@ namespace API.Controllers
         /// <response code="500">Ошибка сервера</response>
         /// <response code="501">Не реализовано</response>
         [HttpPut("{obj_id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = RoleConst.Admin)]
         [ProducesResponseType(typeof(BoardTypeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
