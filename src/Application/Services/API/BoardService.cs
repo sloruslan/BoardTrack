@@ -9,6 +9,7 @@ using Domain.DTO.Database.Models;
 using Domain.Enums;
 using Domain.Exceptions;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,9 +69,15 @@ namespace Application.Services.API
                         transaction.Commit();
                         return _mapper.Map<BoardResponse>(res);
                     }
+                    catch (PostgresException ex) when (ex.SqlState == "23503")
+                    {
+                        _logger.LogError(ex, "Error Create Board");
+                        transaction.Rollback();
+                        throw new BoardMoveException(ex.Detail);
+                    }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Error Move Board");
+                        _logger.LogError(ex, "Error Create Board");
                         transaction.Rollback();
                         throw new BoardMoveException(ex.ToString());
                     }
