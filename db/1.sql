@@ -8,7 +8,7 @@ create table "PRODUCTION_STEP"
 );
 
 INSERT INTO public."PRODUCTION_STEP"
-    (id, created_at, updated_at, is_active, name)
+(id, created_at, updated_at, name)
 VALUES
     (1, now(), now(), 'Регистрация'),
     (2, now(), now(), 'Установка компонентов'),
@@ -89,18 +89,18 @@ CREATE TABLE "BOARD_HISTORY_DEFAULT" PARTITION OF "BOARD_HISTORY" default;
 
 create index "BOARD_HISTORY_board_id_index"
     on public."BOARD_HISTORY" (board_id);
-	
-	
+
+
 create table public."ROLE"
 (
     id  bigint constraint "PK_ROLE"
-            primary key,
+        primary key,
     name text not null
 );
 
 INSERT INTO public."ROLE" (id, name)
 values 	(1, 'Admin'),
-		(2, 'User');
+          (2, 'User');
 
 create table public."USER"
 (
@@ -116,6 +116,6 @@ create table public."USER"
 );
 
 INSERT INTO public."USER" (first_name, second_name, patronymic, email, password, role_id)
-values 
-('Ivan', 'Ivanov', 'Ivanovich', 'admin', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918', 1),
-('Petr', 'Petrov', 'Petrovich', 'user', '04F8996DA763B7A969B1028EE3007569EAF3A635486DDAB211D512C85B9DF8FB', 1);
+values
+    ('Ivan', 'Ivanov', 'Ivanovich', 'admin', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918', 1),
+    ('Petr', 'Petrov', 'Petrovich', 'user', '04F8996DA763B7A969B1028EE3007569EAF3A635486DDAB211D512C85B9DF8FB', 1);
