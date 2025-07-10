@@ -19,6 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSchedulerQuartz(builder.Configuration);
+builder.Services.AddFusionCache(builder.Configuration);
 builder.Services.AddTokenValidation();
 
 

@@ -14,14 +14,14 @@ namespace Persistence.Database.Repository
     {
         public ProductionStepRuleRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory){}
 
-        public List<short> GetValidSteps(short currentStepId)
+        public async Task<List<short>> GetValidSteps(short currentStepId)
         {
             using var db = _dbContextFactory.Create();
 
-            var steps = db.ProductionStepRule  
+            var steps = await db.ProductionStepRule  
                 .Where(x => x.CurrentStepId == currentStepId)
                 .Select(x => x.ValidNextStepId)
-                .ToList();
+                .ToListAsync();
 
             if (steps == null)
             {

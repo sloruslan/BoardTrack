@@ -1,13 +1,15 @@
 ﻿using API.Service;
+using Application.Configuration;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
+using FusionCacheOptions =Application.Configuration.FusionCacheOptions;
 
 namespace API.Configuration
 {
@@ -98,6 +100,20 @@ namespace API.Configuration
                     }
                 });
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddFusionCache(this IServiceCollection services, IConfiguration configuration)
+        {
+            var fusionCacheOptions = configuration
+                .GetSection(FusionCacheOptions.Section)
+                .Get<FusionCacheOptions>()!;
+
+            services.AddMemoryCache()
+                .AddFusionCache()
+                .WithDefaultEntryOptions(new FusionCacheEntryOptions(TimeSpan.FromMinutes(fusionCacheOptions.DurationMinutes)))
+                .WithSerializer(new FusionCacheSystemTextJsonSerializer());
 
             return services;
         }

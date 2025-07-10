@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Application.Services.API
 {
@@ -24,19 +25,22 @@ namespace Application.Services.API
         private readonly IBoardRepository _boardRepository;
         private readonly IProductionStepRuleRepository _productionStepRuleRepository;
         private readonly IBoardHistoryRepository _boardHistoryRepository;
+        private readonly IFusionCache _fusionCache;
 
         public BoardService(
             ILogger<BoardService> logger,
             IBoardRepository boardRepository,
             IMapper mapper,
             IProductionStepRuleRepository productionStepRuleRepository,
-            IBoardHistoryRepository boardHistoryRepository)
+            IBoardHistoryRepository boardHistoryRepository,
+            IFusionCache fusionCache)
         {
             _logger = logger;
             _mapper = mapper;
             _boardRepository = boardRepository;
             _productionStepRuleRepository = productionStepRuleRepository;
             _boardHistoryRepository = boardHistoryRepository;
+            _fusionCache = fusionCache;
         }
 
         public async Task<BoardResponse> CreateAsync(CreateBoardRequest request, long userId)
@@ -102,7 +106,13 @@ namespace Application.Services.API
         {
             var board = await _boardRepository.GetOneAsync(request.BoardId);
 
-            var validSteps = _productionStepRuleRepository.GetValidSteps(board.CurrentStepId);
+            var validSteps = await _fusionCache.GetOrSetAsync<List<short>>($"ValidSteps:{board.CurrentStepId}",
+                async _ =>
+                {
+                    var items = await _productionStepRuleRepository.GetValidSteps(board.CurrentStepId); 
+                    return items;
+                });
+
             if (!validSteps.Contains(request.NextStepId))
             {
                 throw new StepNotAllowedException

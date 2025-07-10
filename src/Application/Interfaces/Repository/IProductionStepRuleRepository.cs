@@ -8,6 +8,6 @@ namespace Application.Interfaces.Repository
 {
     public interface IProductionStepRuleRepository
     {
-        List<short> GetValidSteps(short currentStepId);
+        Task<List<short>> GetValidSteps(short currentStepId);
     }
 }

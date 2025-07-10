@@ -12,6 +12,8 @@
 	 <PackageReference Include="Quartz" Version="3.14.0" />
 	 <PackageReference Include="Quartz.AspNetCore" Version="3.14.0" />
 	 <PackageReference Include="Quartz.Serialization.Json" Version="3.14.0" />
+	  <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.1.0" />
+	  <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
