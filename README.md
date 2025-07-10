@@ -56,3 +56,20 @@
 ```
 http://localhost:5226/swagger/index.html
 ```
+Для доступа к endpoint необхожимо пройти авторизацию в методе 
+```https://localhost:7155/api/auth/login```
+Доступно два пользователя. 
+Администратор:
+```
+{
+  "email": "admin",
+  "password": "admin"
+}
+```
+Обычный пользователь:
+```
+{
+  "email": "user",
+  "password": "user"
+}
+```
