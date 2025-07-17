@@ -1,0 +1,20 @@
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: src/API/Dockerfile
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: board_track
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+
+volumes:
+  pgdata:

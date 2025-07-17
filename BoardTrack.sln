@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "src\Persiste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{DAC51094-40A1-4FA1-BA03-1FADFE7837BB}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{28EE7952-2829-4A68-94A1-F8D66DE53D14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DAC51094-40A1-4FA1-BA03-1FADFE7837BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAC51094-40A1-4FA1-BA03-1FADFE7837BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAC51094-40A1-4FA1-BA03-1FADFE7837BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28EE7952-2829-4A68-94A1-F8D66DE53D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28EE7952-2829-4A68-94A1-F8D66DE53D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28EE7952-2829-4A68-94A1-F8D66DE53D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28EE7952-2829-4A68-94A1-F8D66DE53D14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
